@@ -1,5 +1,4 @@
-# TURDEAN PAULA-FLORINA PROBLEMELE: SET1 PROBLEMA 6 si SET2 PROBLEMA 13
-from typing import List
+# TURDEAN PAULA-FLORINA PROBLEMELE: SET1 PROBLEMA 6 si SET2 PROBLEMA 13 + PROBLEMA 9
 
 
 def citire_lista():
@@ -139,6 +138,48 @@ def test_get_longest_prime_digits():
     assert get_longest_prime_digits([]) == []
 
 
+def elementele_au_produs_impar(lst):
+    """
+    Verifica daca produsul elementelor dintr-o lista este impar.
+    :param lst: Lista verificata
+    :return: Returneaza True daca produsul este impar si False in caz contrar.
+    """
+    produs = 1
+    for x in lst:
+        produs *= x
+    if produs % 2 != 0:
+        return True
+    else:
+        return False
+
+
+def test_elementele_au_produs_impar():
+    assert elementele_au_produs_impar([2, 3, 4]) is False
+    assert elementele_au_produs_impar([3, 5, 7]) is True
+
+
+def get_longest_product_is_odd(lst: list[int]) -> list[int]:
+    """
+    Determina cea mai lunga secventa de elemente care au produsul impar (dintr-o lista)
+    :param lst: Lista initiala
+    :return: Returneaza cea mai lunga secventa de elemente care au produsul impar (o lista)
+    """
+    subsecventa = []
+    n = len(lst)
+    for i in range(n):
+        for j in range(i, n):
+            if elementele_au_produs_impar(lst[i:j + 1]) is True and len(lst[i:j + 1]) > len(subsecventa):
+                subsecventa = lst[i:j + 1]
+    return subsecventa
+
+
+def test_get_longest_product_is_odd():
+    assert get_longest_product_is_odd([3, 5, 3, 3, 2, 4, 7, 7]) == [3, 5, 3, 3]
+    assert get_longest_product_is_odd([]) == []
+    assert get_longest_product_is_odd([3]) == [3]
+    assert get_longest_product_is_odd([6]) == []
+
+
 def main():
     test_toate_elementele_div_k()
     test_get_longest_div_k()
@@ -146,11 +187,14 @@ def main():
     test_format_din_cifre_prime()
     test_toate_elementele_au_doar_cifre_prime()
     test_get_longest_prime_digits()
+    test_elementele_au_produs_impar()
+    test_get_longest_product_is_odd()
     shouldRun = True
     while shouldRun:
         print("1)Citire lista.")
-        print("2)Determinare cea mai lunga secventa de numere divizibile cu un numar dat.")
-        print("3)Determinare cea mai lunga secventa...")
+        print("2)Determinati cea mai lunga secventa de numere divizibile cu un numar dat.")
+        print("3)Determinati cea mai lunga secventa de numere formate doar din cifre prime")
+        print("4)Determinati cea mai lunga secventa de numere care au produsul impar")
         print("x)Iesire")
         optiune = input("Alegeti o optiune: ")
         if optiune == "1":
@@ -158,6 +202,10 @@ def main():
         elif optiune == "2":
             nr = int(input("Dati numarul pentru verificare: "))
             print(get_longest_div_k(lst, nr))
+        elif optiune == "3":
+            print(get_longest_prime_digits(lst))
+        elif optiune == "4":
+            print(get_longest_product_is_odd(lst))
         elif optiune == "x":
             print("Ati iesit din program")
             shouldRun = False
